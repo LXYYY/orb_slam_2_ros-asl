@@ -11,9 +11,11 @@ OrbSlam2InterfaceRGBD::OrbSlam2InterfaceRGBD(const ros::NodeHandle& nh,
   subscribeToTopics();
   // advertiseTopics();
   // getParametersFromRos();
+  bool visualization;
+  nh.getParam("visualization", visualization);
   slam_system_ = std::shared_ptr<ORB_SLAM2::System>(
       new ORB_SLAM2::System(vocabulary_file_path_, settings_file_path_,
-                            ORB_SLAM2::System::RGBD, true));
+                            ORB_SLAM2::System::RGBD, visualization));
 }
 
 void OrbSlam2InterfaceRGBD::subscribeToTopics() {
@@ -65,6 +67,7 @@ void OrbSlam2InterfaceRGBD::rgbdImageCallback(
     publishCurrentPose(T_W_C, msg_rgb->header);
     // Saving the transform to the member for publishing as a TF
     T_W_C_ = T_W_C;
+    current_frame_time_ = msg_rgb->header.stamp;
   }
 }
 

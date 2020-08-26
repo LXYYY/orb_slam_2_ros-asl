@@ -56,10 +56,11 @@ void OrbSlam2Interface::publishCurrentPose(const Transformation& T,
 }
 
 void OrbSlam2Interface::publishCurrentPoseAsTF(const ros::TimerEvent& event) {
+  // ROS_INFO("publishing TF");
   tf::Transform tf_transform;
   tf::transformKindrToTF(T_W_C_, &tf_transform);
   tf_broadcaster_.sendTransform(tf::StampedTransform(
-      tf_transform, ros::Time::now(), frame_id_, child_frame_id_));
+      tf_transform, current_frame_time_, frame_id_, child_frame_id_));
 }
 
 void OrbSlam2Interface::convertOrbSlamPoseToKindr(const cv::Mat& T_cv,

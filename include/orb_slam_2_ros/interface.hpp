@@ -51,6 +51,7 @@ class OrbSlam2Interface {
   ros::Publisher T_pub_;
   tf::TransformBroadcaster tf_broadcaster_;
   ros::Timer tf_timer_;
+  ros::Time current_frame_time_;
 
   // The orb slam system
   std::shared_ptr<ORB_SLAM2::System> slam_system_;
